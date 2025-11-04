@@ -1,0 +1,60 @@
+﻿@{
+    ViewData["Title"] = "Personas";
+}
+@model List<Persona>
+
+    @* public string Name { get; set; } = string.Empty;
+        public int Level { get; set; }
+        public string Description { get; set; } = string.Empty;
+        public string Image { get; set; } = string.Empty;
+        public int Strength { get; set; }
+        public int Magic { get; set; }
+        public int Endurance { get; set; }
+        public int Agility { get; set; }
+        public int Luck { get; set; }
+        public int Dlc { get; set; } *@
+<h1>
+    Personas
+</h1>
+<div>
+    <table class="table table-bordered table-striped ">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Level</th>
+                <th>Description</th>
+                <th>Image</th>
+                <th>Strength</th>
+                <th>Magic</th>
+                <th>Endurance</th>
+                <th>Agility</th>
+                <th>Luck</th>
+                <th>Dlc</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var p in Model)
+            {
+                <tr>
+                    <td>
+                        <img height="260px" width="300px" src="@p.Image" />
+                    </td>
+                    <td>@p.Name</td>
+                    <td>@p.Level</td>
+                    <td>@p.Description</td>
+                    <td>@p.Strength</td>
+                    <td>@p.Magic</td>
+                    <td>@p.Endurance</td>
+                    <td>@p.Agility</td>
+                    <td>@p.Luck</td>
+                    <td>@(p.Dlc == 1 ? "Yes" : "No")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+
+
+
+
