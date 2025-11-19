@@ -1,7 +1,37 @@
-﻿@{
+﻿@model IEnumerable<Persona3Compendium.Web.Models.Arcana>
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="">
-    <h2>Arcanas</h2>
+<div class="max-w-4xl mt-28 mx-auto my-4">
+    <h2 class="text-5xl font-main text-white">Arcanas</h2>
+
+    <section class="mt-5 grid grid-cols-6 gap-4 backdrop-blur-sm bg-blue-950/10 rounded-md p-6">
+        @foreach (var arcana in Model)
+        {
+            <div class="flex flex-col items-center bg-blue-900/40 rounded-lg p-3">
+                
+                <a asp-action="Details" asp-route-id="@arcana.Id">
+                    <div class="group relative perspective-distant">
+
+                        <div class="hover:scale-110 hover:-translate-y-4
+                            transition-all transform-3d group-hover:rotate-y-180 duration-700">
+
+                            <img src="/icons/arcanas/back-arcana.png" width="110" height="110" alt="@arcana.Name"
+                                class="absolute backface-hidden"/>
+
+                            <img src="/icons/arcanas/@(arcana.Name).png" width="110" height="110" alt="@arcana.Name"
+                                class="backface-hidden rotate-y-180" />
+
+                        </div>
+                    </div>
+                </a>
+
+                <p class="text-white font-ternary text-sm mt-2 tracking-wide text-center drop-shadow">
+                    @arcana.Name
+                </p>
+            </div>
+        }
+    </section>
 </div>

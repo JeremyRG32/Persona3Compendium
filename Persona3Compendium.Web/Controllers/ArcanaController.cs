@@ -12,8 +12,13 @@ namespace Persona3Compendium.Web.Controllers
         }
         public IActionResult Index()
         {
-            var personas = _context.Personas.ToList();
-            return View(personas);
+            var arcanas = _context.Arcanas.ToList();
+            return View(arcanas);
+        }
+        public IActionResult Details(int id)
+        {
+            var arcana = _context.Arcanas.FirstOrDefault(x => x.Id == id);
+            return View(arcana);
         }
     }
 }

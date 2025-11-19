@@ -1,0 +1,26 @@
+@model Persona3Compendium.Web.Models.Arcana
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<div class="max-w-4xl mt-28 mx-auto my-4">
+    <h2 class="text-5xl font-main text-white">@Model.Name Arcana</h2>
+
+    <section class="mt-5 backdrop-blur-sm bg-blue-950/10 rounded-md p-6 flex flex-col md:flex-row gap-6">
+
+        <div class="flex-shrink-0">
+            <img src="/icons/arcanas/@(Model.Name).png" width="220" height="220" alt="@Model.Name"
+                class=""/>
+        </div>
+
+        <div class="flex-grow text-white font-ternary text-lg leading-relaxed">
+
+            <p class="mb-4">
+                @Model.Description
+            </p>
+
+        </div>
+
+    </section>
+</div>

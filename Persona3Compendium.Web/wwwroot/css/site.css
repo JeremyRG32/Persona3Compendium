@@ -1,5 +1,12 @@
 @import "tailwindcss";
 
+body{
+    background-image: url(/icons/background.jpeg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
 @font-face {
     font-family: 'PersonaMain';
     src: url('../fonts/Persona-Main.otf') format('opentype');
