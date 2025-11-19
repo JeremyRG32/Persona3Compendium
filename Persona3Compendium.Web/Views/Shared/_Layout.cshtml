@@ -7,30 +7,33 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/styles.css"/>
 </head>
-<body class="">
-    <header>
-        <nav class="">
-        <div class="">
-            <a href="#">
-                Persona Compendium
-            </a>
+<body class="flex flex-col min-h-screen">
+    <header class="w-full">
+        <nav class="p-4 bg-black text-white shadow-lg">
+            <div class="flex flex-row items-center justify-between">
 
-            <div class="">
-                <a href="#" class="">Personas</a>
-                <a href="#" class="">Arcanas</a>
-                <a href="#" class="">Elements</a>
+                <div class="flex flex-row items-center gap-4">
+                    <a asp-controller="Arcana" asp-action="Index">
+                        <img src="~/icons/P3-logo.svg" alt="Persona 3 Reload Logo" width="64" height="64"/>
+                    </a>
+                    <h1 class="text-2xl font-logo">Persona Compendium</h1>
+                </div>
+
+                <ul class="flex flex-row gap-6 text-lg font-ternary">
+                    <li><a asp-area="" asp-controller="Arcana" asp-action="Index">Arcanas</a></li>
+                    <li><a asp-area="" asp-controller="Persona" asp-action="Index">Personas</a></li>
+                    <li><a asp-area="" asp-controller="Element" asp-action="Index">Elements</a></li>
+                </ul>
+
             </div>
-        </div>
-    </nav>
+        </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
+        <main role="main" class="grow">
             @RenderBody()
         </main>
-    </div>
 
     <footer class="">
-        <div class="">
+        <div class="bg-black text-white text-center p-4 font-ternary">
             Persona Compendium © @DateTime.Now.Year  
         </div>
     </footer>

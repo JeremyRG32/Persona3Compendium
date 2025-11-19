@@ -1,1 +1,73 @@
 @import "tailwindcss";
+
+@font-face {
+    font-family: 'PersonaMain';
+    src: url('../fonts/Persona-Main.otf') format('opentype');
+    font-style: normal;
+    font-weight: 100 700;
+    font-display: swap;
+
+}
+
+@font-face {
+    font-family: 'PersonaSecondary';
+    src: url('../fonts/Persona-Secondary-M.otf') format('opentype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PersonaSecondary';
+    src: url('../fonts/Persona-Secondary-DB.otf') format('opentype');
+    font-weight: 600;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PersonaSecondary';
+    src: url('../fonts/Persona-Secondary-B.otf') format('opentype');
+    font-weight: 700;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'PersonaSecondary';
+    src: url('../fonts/Persona-Secondary-EB.otf') format('opentype');
+    font-weight: 800;
+    font-style: normal;
+}
+
+
+@font-face {
+    font-family: 'PersonaTernary';
+    src: url('../fonts/Persona-Ternary-M.otf') format('opentype');
+    font-weight: 500;
+}
+
+@font-face {
+    font-family: 'PersonaTernary';
+    src: url('../fonts/Persona-Ternary-EB.otf') format('opentype');
+    font-weight: 800;
+}
+
+@font-face {
+    font-family: 'PersonaTernary';
+    src: url('../fonts/Persona-Ternary-UB.otf') format('opentype');
+    font-weight: 900;
+}
+
+
+@font-face {
+    font-family: 'PersonaLogo';
+    src: url('../fonts/Persona-Logo.woff2') format('woff2');
+    font-style: normal;
+    font-weight: 100 700;
+    font-display: swap;
+}
+
+@theme {
+    --font-main: 'PersonaMain';
+    --font-secondary: 'PersonaSecondary';
+    --font-ternary: 'PersonaTernary';
+    --font-logo: 'PersonaLogo';
+}
