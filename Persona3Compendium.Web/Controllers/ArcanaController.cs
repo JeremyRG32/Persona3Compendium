@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Persona3Compendium.Web.Data;
 
 namespace Persona3Compendium.Web.Controllers
@@ -17,7 +18,15 @@ namespace Persona3Compendium.Web.Controllers
         }
         public IActionResult Details(int id)
         {
-            var arcana = _context.Arcanas.FirstOrDefault(x => x.Id == id);
+            var arcana = _context.Arcanas
+                        .Include(a => a.Personas)        
+                        .FirstOrDefault(x => x.Id == id);
+            
+            if (arcana == null)
+            {
+                return NotFound();
+            }
+
             return View(arcana);
         }
     }

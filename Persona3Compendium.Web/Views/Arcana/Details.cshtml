@@ -1,7 +1,7 @@
 @model Persona3Compendium.Web.Models.Arcana
 
 @{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Arcana Details";
 }
 
 <div class="max-w-4xl mt-28 mx-auto my-4">
@@ -9,12 +9,12 @@
 
     <section class="mt-5 backdrop-blur-sm bg-blue-950/10 rounded-md p-6 flex flex-col md:flex-row gap-6">
 
-        <div class="flex-shrink-0">
-            <img src="/icons/arcanas/@(Model.Name).png" width="220" height="220" alt="@Model.Name"
-                class=""/>
+        <div class="shrink-0">
+            <img src="/icons/arcanas/@(Model.Name).png" width="220" height="220" alt="@Model.Name"/>
+            <p>@Model.Description</p>
         </div>
 
-        <div class="flex-grow text-white font-ternary text-lg leading-relaxed">
+        <div class="grow text-white font-ternary text-lg leading-relaxed">
 
             <p class="mb-4">
                 @Model.Description
@@ -23,4 +23,32 @@
         </div>
 
     </section>
+
+    <section class="mt-10">
+
+        <h3 class="text-4xl font-main text-white mb-4">Related Personas</h3>
+        <div class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 backdrop-blur-sm bg-blue-950/10 rounded-md p-6">
+            @foreach (var persona in Model.Personas)
+            {
+                <div class="flex flex-col items-center bg-blue-900/40 rounded-lg p-3">
+
+                    <a asp-controller="Persona" asp-action="Details" asp-route-id="@persona.Id">
+                        <div class="group relative perspective-distant">
+
+                            <div class="hover:scale-110 hover:-translate-y-4
+                                transition-all duration-700 justify-center text-center flex">
+
+                                <img style="width: 220px; height: 220px;" class="drop-shadow-lg object-contain" src="/icons/personas/@(persona.Name).png" alt="@persona.Name">
+                            </div>
+                        </div>
+                    </a>
+
+                    <p class="text-white font-ternary text-lg mt-2 tracking-wide text-center drop-shadow">
+                        @persona.Name
+                    </p>
+                </div>
+            }
+        </div>
+    </section>
 </div>
+
