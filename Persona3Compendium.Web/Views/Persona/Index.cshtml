@@ -2,59 +2,54 @@
     ViewData["Title"] = "Personas";
 }
 @model List<Persona>
+<div class="max-w-4xl mt-28 mx-auto my-4">
+    <h2 class="text-5xl font-main my-4 text-white">Personas</h2>
 
-    @* public string Name { get; set; } = string.Empty;
-        public int Level { get; set; }
-        public string Description { get; set; } = string.Empty;
-        public string Image { get; set; } = string.Empty;
-        public int Strength { get; set; }
-        public int Magic { get; set; }
-        public int Endurance { get; set; }
-        public int Agility { get; set; }
-        public int Luck { get; set; }
-        public int Dlc { get; set; } *@
-<h1>
-    Personas
-</h1>
-<div>
-    <table class="table table-bordered table-striped ">
-        <thead>
-            <tr>
-                <th>Name</th>
-                <th>Level</th>
-                <th>Description</th>
-                <th>Image</th>
-                <th>Strength</th>
-                <th>Magic</th>
-                <th>Endurance</th>
-                <th>Agility</th>
-                <th>Luck</th>
-                <th>Dlc</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var p in Model)
+    @*Filters*@
+    <form method="get" class="mt-4 flex flex-row gap-4"> 
+
+        <input type="text" name="search" placeholder="Search personas..." autocomplete="off" value="@Context.Request.Query["search"]"
+            class="text-white bg-blue-900/40 rounded-lg p-3 focus:outline-none" />
+        
+        <select name="arcana" placeholder="Select Arcana" value="@Context.Request.Query["arcana"]" 
+            class="text-white bg-blue-900/40 rounded-md p-3 overflow-y-auto"/>
+            <option value="">All Arcanas</option>
+            @foreach (var arcana in ViewBag.Arcanas as List<Arcana>)
             {
-                <tr>
-                    <td>
-                        <img height="260px" width="300px" src="@p.Image" />
-                    </td>
-                    <td>@p.Name</td>
-                    <td>@p.Level</td>
-                    <td>@p.Description</td>
-                    <td>@p.Strength</td>
-                    <td>@p.Magic</td>
-                    <td>@p.Endurance</td>
-                    <td>@p.Agility</td>
-                    <td>@p.Luck</td>
-                    <td>@(p.Dlc == 1 ? "Yes" : "No")</td>
-                </tr>
+                <option value="@arcana.Name"
+                    selected="@(Context.Request.Query["arcana"] == arcana.Name ? "selected" : null)">
+                    @arcana.Name
+                </option>
             }
-        </tbody>
-    </table>
+        </select>
+
+        <button type="submit" class="ml-4 justify-end items-end text-end text-white font-ternary py-2 px-4 rounded-md">
+            Filter
+        </button>
+    </form>
+
+    <section class="mt-5 grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 backdrop-blur-sm bg-blue-950/10 rounded-md p-6">
+        @foreach (var persona in Model)
+        {
+            <div class="flex flex-col items-center bg-blue-900/40 rounded-lg p-3">
+                
+                <a asp-action="Details" asp-route-id="@persona.Id">
+                    <div class="group relative perspective-distant">
+
+                        <div class="hover:scale-110 hover:-translate-y-4
+                            transition-all duration-700">
+
+                            <img style="width: 220px; height: 220px;" class="drop-shadow-lg object-contain" src="/icons/personas/@(persona.Name).png" alt="@persona.Name">
+                        </div>
+                    </div>
+                </a>
+
+                <p class="text-white font-ternary text-sm mt-2 tracking-wide text-center drop-shadow">
+                    @persona.Name
+                </p>
+            </div>
+            
+        }        
+    </section>
 </div>
-
-
-
-
 

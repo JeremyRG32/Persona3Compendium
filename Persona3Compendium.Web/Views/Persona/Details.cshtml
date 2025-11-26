@@ -1,0 +1,111 @@
+@model PersonaViewModel
+
+@{
+    ViewData["Title"] = "Persona Details";
+}
+
+<div class="max-w-4xl mt-28 mb-28 mx-auto">
+    <div>
+        <h2 class="text-5xl font-main text-white">@Model.Persona.Name</h2>
+
+        <section class="mt-5 backdrop-blur-sm bg-blue-950/10 rounded-md p-6 flex flex-col md:flex-row gap-6">
+            <div class="grow text-white font-ternary text-lg leading-relaxed">
+
+                <p class="mb-4">
+                    Base Level: @Model.Persona.Level
+                </p>
+                <p class="mb-4">
+                    @Model.Persona.Description
+                </p>
+                <p class="mb-4">
+                    Strength: @Model.Persona.Strength<br />
+                    Magic: @Model.Persona.Magic<br />
+                    Endurance: @Model.Persona.Endurance<br />
+                    Agility: @Model.Persona.Agility<br />
+                    Luck: @Model.Persona.Luck<br />
+                </p>
+
+                <p>
+                    @(Model.Persona.Dlc == 1 ? "This Persona is available via DLC." : "This Persona is not available via DLC.")
+                </p>
+
+                <div class="mt-6">
+                        <strong>Weaknesses</strong> 
+                        <div class="flex flex-row gap-2 mt-2">
+                         @foreach (var w in Model.Weaknesses)
+                        {
+                            if(w.Name != "")
+                            {
+                                <img src="/icons/elements/@(w.Name).png" />
+                            }
+                            else
+                            {
+                                <span>No Weaknesses</span>
+                            }
+                        }
+                    </div>
+                        
+                    <strong>Resistances</strong>
+                    <div class="flex flex-row gap-2 mt-2">
+                         @foreach (var r in Model.Resists)
+                        {
+                            if(r.Name != "")
+                            {
+                                <img src="/icons/elements/@(r.Name).png" />
+                            }
+                            else
+                            {
+                                <span>No Resistances</span>
+                            }
+                        }
+                    </div>
+
+                    <strong>Nulls</strong>
+                    <div class="flex flex-row gap-2 mt-2">
+                         @foreach (var n in Model.Nullifies)
+                        {
+                            if(n.Name != "")
+                            {
+                                <img src="/icons/elements/@(n.Name).png" />
+                            }
+                            else
+                            {
+                                <span>No Nulls</span>
+                            }
+                        }
+                    </div>
+
+                    <strong>Absorbs</strong>
+                    <div class="flex flex-row gap-2 mt-2">
+                         @foreach (var a in Model.Absorbs)
+                        {
+                            if(a.Name != "")
+                            {
+                                <img src="/icons/elements/@(a.Name).png" />
+                            }
+                            else
+                            {
+                                <span>No Absorbs</span>
+                            }
+                        }
+                    </div>
+
+                    <strong>Reflects</strong>
+                        <div class="flex flex-row gap-2 mt-2">
+                         @foreach (var r in Model.Reflects)
+                        {
+                            if(r.Name != "")
+                            {
+                                <img src="/icons/elements/@(r.Name).png" />
+                            }
+                            else
+                            {
+                                <span>No Reflects</span>
+                            }
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>
