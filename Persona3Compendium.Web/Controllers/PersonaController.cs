@@ -13,7 +13,7 @@ namespace Persona3Compendium.Web.Controllers
         {
             _context = context;
         }
-        public async Task<IActionResult> Index(string? search, string? arcana)
+        public async Task<IActionResult> Index(string? search, string? arcana, int pageNumber)
         {            
             var personas = _context.Personas
             .Include(p => p.Arcana)
@@ -34,11 +34,18 @@ namespace Persona3Compendium.Web.Controllers
                 personas = personas.Where(p => p.Arcana.Name == arcana);
             }
 
-            //Applying pagination
-            int totalitems = await personas.CountAsync();
+            //Alphabetic Order
+            personas = personas.OrderBy(p => p.Name);
 
             ViewBag.Arcanas = await _context.Arcanas.ToListAsync();
-            return View(await personas.ToListAsync());
+            
+            if(pageNumber < 1)
+            {
+                pageNumber = 1;
+            }
+
+            int pageSize = 15;
+            return View(await PaginatedList<Persona>.CreateAsync(personas, pageNumber, pageSize));
         }
         public IActionResult Details(int id)
         {

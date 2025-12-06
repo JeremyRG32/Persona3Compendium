@@ -1,17 +1,17 @@
 ﻿@{
     ViewData["Title"] = "Personas";
 }
-@model List<Persona>
+@model PaginatedList<Persona>
 <div class="max-w-4xl mt-28 mx-auto my-4">
-    <h2 class="text-5xl font-main my-4 text-white">Personas</h2>
+    <h2 class="font-main text-5xl text-white">Personas</h2>
 
     @*Filters*@
-    <form method="get" class="mt-4 flex flex-row gap-4"> 
+    <form id="filter-form" method="get" class="mt-4 flex flex-row gap-4"> 
 
         <input type="text" name="search" placeholder="Search personas..." autocomplete="off" value="@Context.Request.Query["search"]"
             class="text-white bg-blue-900/40 rounded-lg p-3 focus:outline-none" />
         
-        <select name="arcana" placeholder="Select Arcana" value="@Context.Request.Query["arcana"]" 
+        <select id="arcana" name="arcana" placeholder="Select Arcana" value="@Context.Request.Query["arcana"]" 
             class="text-white bg-blue-900/40 rounded-md p-3 overflow-y-auto"/>
             <option value="">All Arcanas</option>
             @foreach (var arcana in ViewBag.Arcanas as List<Arcana>)
@@ -23,13 +23,15 @@
             }
         </select>
 
-        <button type="submit" class="ml-4 justify-end items-end text-end text-white font-ternary py-2 px-4 rounded-md">
-            Filter
+        <button type="submit" class="ml-4 justify-end bg-blue-950/80 items-end text-end text-white font-ternary py-2 px-4 rounded-md">
+            Search
         </button>
     </form>
 
-    <section class="mt-5 grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4 backdrop-blur-sm bg-blue-950/10 rounded-md p-6">
-        @foreach (var persona in Model)
+    <div class="backdrop-blur-sm bg-blue-950/10 rounded-md p-6 mt-5">
+    
+        <section class="grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4">
+        @foreach (var persona in Model.Items)
         {
             <div class="flex flex-col items-center bg-blue-900/40 rounded-lg p-3">
                 
@@ -48,8 +50,33 @@
                     @persona.Name
                 </p>
             </div>
-            
-        }        
-    </section>
-</div>
+        }  
+        </section>
 
+        <div class="mt-4 rounded-md bg-blue-900/40 text-white text-xl p-2 font-main">
+            <nav>
+                <ul class="flex flex-row justify-between">
+                    <li class="p-2 @(Model.PageIndex == 1 ? "cursor-default pointer-events-none opacity-50" : "")">
+                        <a class="hover:text-blue-800 transition-all duration-200" asp-route-pageNumber="@(Model.PageIndex - 1)">
+                            < Previous 
+                        </a>
+                    </li>
+
+                    @for(var i = 1; i <= Model.TotalPages; i++)
+                    {
+                        <li class="p-2 @(Model.PageIndex == i ? "cursor-default pointer-events-none text-blue-300 opacity-50" : "")">
+                            <a class="hover:text-blue-950 transition-all duration-200" asp-route-pageNumber="@i">@i</a>
+                        </li>
+                    }
+
+                    <li class="p-2 @(Model.PageIndex == Model.TotalPages ? "cursor-default pointer-events-none opacity-50" : "")">
+                        <a class="hover:text-blue-800 transition-all duration-200" asp-route-pageNumber="@(Model.PageIndex + 1)"> 
+                            Next >
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>  
+
+    </div>
+</div>
