@@ -1,4 +1,6 @@
-﻿<!DOCTYPE html>
+﻿@using Microsoft.AspNetCore.Components.Web
+@using Microsoft.AspNetCore.Mvc.RazorPages
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -20,15 +22,22 @@
                 </div>
 
                 <ul class="flex flex-row gap-6 text-lg font-ternary">
-                    <li><a asp-area="" asp-controller="Arcana" asp-action="Index">Arcanas</a></li>
-                    <li><a asp-area="" asp-controller="Persona" asp-action="Index">Personas</a></li>
-                    <li><a asp-area="" asp-controller="Element" asp-action="Index">Elements</a></li>
+                    <li 
+                        class="hover:text-blue-400 transition-all duration-300 
+                        @(ViewData["Title"]?.ToString() == "Arcanas" ? "text-blue-400" : "")">
+                        <a asp-area="" asp-controller="Arcana" asp-action="Index">Arcanas</a>
+                    </li>
+                    <li 
+                        class="hover:text-blue-400 transition-all duration-300 
+                        @(ViewData["Title"]?.ToString() == "Personas" ? "text-blue-400" : "")">
+                        <a asp-area="" asp-controller="Persona" asp-action="Index">Personas</a>
+                    </li>
                 </ul>
 
             </div>
         </nav>
     </header>
-        <main role="main" class="">
+        <main role="main" class="" style="margin-bottom: 50px;">
             @RenderBody()
         </main>
 
