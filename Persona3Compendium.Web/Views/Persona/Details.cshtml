@@ -1,111 +1,156 @@
 @model PersonaViewModel
 
 @{
-    ViewData["Title"] = "Persona Details";
+    ViewData["Title"] = "Personas";
+    var stats = new[]{
+        new {Name = "Strength", Value = Model.Persona.Strength},
+        new {Name = "Magic", Value = Model.Persona.Magic},
+        new {Name = "Agility", Value = Model.Persona.Agility},
+        new {Name = "Endurance", Value = Model.Persona.Endurance},
+        new {Name = "Luck", Value = Model.Persona.Luck}
+    };
 }
 
-<div class="max-w-4xl mt-28 mb-28 mx-auto">
-    <div>
-        <h2 class="text-5xl font-main text-white">@Model.Persona.Name</h2>
+<div class="max-w-5xl mx-auto mt-40 flex gap-3 text-white">
+    <div class="flex flex-col">
 
-        <section class="mt-5 backdrop-blur-sm bg-blue-950/10 rounded-md p-6 flex flex-col md:flex-row gap-6">
-            <div class="grow text-white font-ternary text-lg leading-relaxed">
+        <div class="bg-blue-900/40 p-3 rounded-lg mb-2">
 
-                <p class="mb-4">
-                    Base Level: @Model.Persona.Level
-                </p>
-                <p class="mb-4">
-                    @Model.Persona.Description
-                </p>
-                <p class="mb-4">
-                    Strength: @Model.Persona.Strength<br />
-                    Magic: @Model.Persona.Magic<br />
-                    Endurance: @Model.Persona.Endurance<br />
-                    Agility: @Model.Persona.Agility<br />
-                    Luck: @Model.Persona.Luck<br />
-                </p>
+            <div class="flex flex-row items-center justify-between">
+                <h2 class="font-main text-4xl text-shadow-2xs text-shadow-blue-900">@Model.Persona.Name</h2>
+                @if (Model.Persona.Dlc == 1)
+                {
+                    <h4 class="font-main text-amber-300 text-xl text-shadow-2xs text-shadow-blue-600">
+                        DLC Req
+                    </h4>
+                }
+            </div>
 
-                <p>
-                    @(Model.Persona.Dlc == 1 ? "This Persona is available via DLC." : "This Persona is not available via DLC.")
-                </p>
+            <div class="flex flex-row items-center justify-between">
+                <h3 class="font-main text-amber-300 text-xl text-shadow-2xs text-shadow-blue-600 ">Base Level:
+                @Model.Persona.Level</h3>
 
-                <div class="mt-6">
-                        <strong>Weaknesses</strong> 
-                        <div class="flex flex-row gap-2 mt-2">
-                         @foreach (var w in Model.Weaknesses)
-                        {
-                            if(w.Name != "")
-                            {
-                                <img src="/icons/elements/@(w.Name).png" />
-                            }
-                            else
-                            {
-                                <span>No Weaknesses</span>
-                            }
-                        }
-                    </div>
-                        
-                    <strong>Resistances</strong>
-                    <div class="flex flex-row gap-2 mt-2">
-                         @foreach (var r in Model.Resists)
-                        {
-                            if(r.Name != "")
-                            {
-                                <img src="/icons/elements/@(r.Name).png" />
-                            }
-                            else
-                            {
-                                <span>No Resistances</span>
-                            }
-                        }
-                    </div>
+                 <h4 class="font-main text-white text-lg text-center text-shadow-2xs text-shadow-blue-600">
+                        @Model.Persona.Arcana.Name <br />Arcana
+                </h4>
+            </div>
 
-                    <strong>Nulls</strong>
-                    <div class="flex flex-row gap-2 mt-2">
-                         @foreach (var n in Model.Nullifies)
-                        {
-                            if(n.Name != "")
-                            {
-                                <img src="/icons/elements/@(n.Name).png" />
-                            }
-                            else
-                            {
-                                <span>No Nulls</span>
-                            }
-                        }
-                    </div>
+            <div class="rounded-lg max-w-96">
+                <img class="drop-shadow-2xl object-contain w-100 h-100" src="/icons/personas/@(Model.Persona.Name).png"
+                    alt="Persona Image">
+            </div>
 
-                    <strong>Absorbs</strong>
-                    <div class="flex flex-row gap-2 mt-2">
-                         @foreach (var a in Model.Absorbs)
-                        {
-                            if(a.Name != "")
-                            {
-                                <img src="/icons/elements/@(a.Name).png" />
-                            }
-                            else
-                            {
-                                <span>No Absorbs</span>
-                            }
-                        }
-                    </div>
 
-                    <strong>Reflects</strong>
-                        <div class="flex flex-row gap-2 mt-2">
-                         @foreach (var r in Model.Reflects)
-                        {
-                            if(r.Name != "")
-                            {
-                                <img src="/icons/elements/@(r.Name).png" />
-                            }
-                            else
-                            {
-                                <span>No Reflects</span>
-                            }
-                        }
-                    </div>
+
+        </div>
+
+        <div class="bg-blue-900/40 backdrop-blur-2xl p-3 rounded-lg">
+            <p class="text-center font-main">
+                @Model.Persona.Description
+            </p>
+        </div>
+
+    </div>
+
+    <div class="bg-blue-900/40 backdrop-blur-md rounded-lg p-3 min-w-2xl flex flex-col text-center">
+
+        <h3 class="font-main text-2xl mb-2 text-amber-300">Elemental Affinities</h3>
+
+        <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
+
+            <!-- WEAK -->
+            @foreach (var element in Model.Persona.Weaknesses)
+            {
+                <div class="flex items-center gap-2 bg-blue-950/40 p-2 rounded-lg">
+                    @if (element.Element.Name != "")
+                    {
+                        <img src="/icons/elements/@(element.Element.Name).png" height="90" width="90" />
+                        <span class="font-main text-red-400">Weak</span>
+                    }
+                    else
+                    {
+                        <span class="font-main text-red-400">No Weaknesses</span>
+                    }
+                </div>
+            }
+
+            <!-- RESIST -->
+            @foreach (var element in Model.Persona.Resists)
+            {
+                <div class="flex items-center gap-2 bg-blue-950/40 p-2 rounded-lg">
+                    @if (element.Element.Name != "")
+                    {
+                        <img src="/icons/elements/@(element.Element.Name).png" height="90" width="90" />
+                        <span class="font-main text-yellow-300">Resists</span>
+                    }
+                    else
+                    {
+                        <span class="font-main text-yellow-300">No Resistances</span>
+                    }
+                </div>
+            }
+
+            <!-- REFLECT -->
+            @foreach (var element in Model.Persona.Reflects)
+            {
+                <div class="flex items-center gap-2 bg-blue-950/40 p-2 rounded-lg">
+                    @if (element.Element.Name != "")
+                    {
+                        <img src="/icons/elements/@(element.Element.Name).png" height="90" width="90" />
+                        <span class="font-main text-blue-300">Reflects</span>
+                    }
+                    else
+                    {
+                        <span class="font-main text-blue-300">No Reflects</span>
+                    }
+                </div>
+            }
+
+            <!-- ABSORB -->
+            @foreach (var element in Model.Persona.Absorbs)
+            {
+                <div class="flex items-center gap-2 bg-blue-950/40 p-2 rounded-lg">
+                    @if (element.Element.Name != "")
+                    {
+                        <img src="/icons/elements/@(element.Element.Name).png" height="90" width="90" />
+                        <span class="font-main text-green-300">Absorbs</span>
+                    }
+                    else
+                    {
+                        <span class="font-main text-green-300">No Absorptions</span>
+                    }
+                </div>
+            }
+
+            <!-- NULLIFY -->
+            @foreach (var element in Model.Persona.Nullifies)
+            {
+                <div class="flex items-center gap-2 bg-blue-950/40 p-2 rounded-lg">
+                    @if (element.Element.Name != "")
+                    {
+                        <img src="/icons/elements/@(element.Element.Name).png" height="90" width="90" />
+                        <span class="font-main text-gray-300">Null</span>
+                    }
+                    else
+                    {
+                        <span class="font-main text-gray-300">No Nulls</span>
+                    }
+                </div>
+            }
+        </div>
+
+        <h3 class="font-main text-2xl mt-5 mb-4 text-amber-300">Base Stats</h3>
+
+
+        @foreach (var element in stats)
+        {
+            <h4 class="text-white text-shadow-current shadow-cyan-400 font-main mb-2 text-2xl">@(element.Name)</h4>
+            <div class="bg-gray-700 rounded-xl flex h-7 w-full">
+                <div id="progress" style="--final-width: @((element.Value / 99.0) * 100)%;"
+                    class="h-full rounded-xl justify-center progress-animation bg-cyan-300 shadow shadow-cyan-700">
+                    <span class="font-main text-white text-shadow-2xs text-shadow-black">@element.Value</span>
                 </div>
             </div>
-        </section>
+        }
     </div>
-</div>
+</div>  
