@@ -1,5 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Personas";
+    string? dlcFilter = ViewData["dlcFilter"]?.ToString();
+    string? arcanaFilter = ViewData["arcanaFilter"]?.ToString();
+    string? sort =  ViewData["sort"]?.ToString();
 }
 @model PaginatedList<Persona>
 <div class="max-w-4xl mt-28 mx-auto my-4">
@@ -8,24 +11,74 @@
     @*Filters*@
     <form id="filter-form" method="get" class="mt-4 flex flex-row gap-4"> 
 
-        <input type="text" name="search" placeholder="Search personas..." autocomplete="off" value="@Context.Request.Query["search"]"
-            class="text-white bg-blue-900/40 rounded-lg p-3 focus:outline-none" />
-        
-        <select id="arcana" name="arcana" placeholder="Select Arcana" value="@Context.Request.Query["arcana"]" 
-            class="text-white bg-blue-900/40 rounded-md p-3 overflow-y-auto"/>
-            <option value="">All Arcanas</option>
-            @foreach (var arcana in ViewBag.Arcanas as List<Arcana>)
-            {
-                <option value="@arcana.Name"
-                    selected="@(Context.Request.Query["arcana"] == arcana.Name ? "selected" : null)">
-                    @arcana.Name
-                </option>
-            }
-        </select>
+        @*Search Persona by Name*@
+        <div class="flex flex-col">
+            <label class="font-main mb-1 text-white">Search by Name</label>
+            <input type="text" name="search" placeholder="Search personas..." autocomplete="off" value="@Context.Request.Query["search"]"
+                class="text-white bg-blue-900/40 rounded-lg p-3 focus:outline-none" />
+        </div>
 
-        <button type="submit" class="ml-4 justify-end bg-blue-950/80 items-end text-end text-white font-ternary py-2 px-4 rounded-md">
-            Search
-        </button>
+        @*Filter Persona by Arcana*@
+        <div class="flex flex-col">
+            <label class="font-main mb-1 text-white">Filter by Arcana</label>
+            <select id="arcana" name="arcana" value="@Context.Request.Query["arcana"]" 
+                class="text-white bg-blue-900/40 rounded-md p-3 overflow-y-auto"/>
+                <option value="">All Arcanas</option>
+                @foreach (var arcana in ViewBag.Arcanas as List<Arcana>)
+                {
+                    <option value="@arcana.Name"
+                        selected="@(Context.Request.Query["arcana"] == arcana.Name ? "selected" : null)">
+                        @arcana.Name
+                    </option>
+                }
+            </select>
+        </div>
+        
+        @*Filter Persona by Dlc*@
+        <div class="flex flex-col">
+            <label class="font-main mb-1 text-white">Filter by Dlc</label>
+            <select id="dlc" name="dlc"
+                class="text-white bg-blue-900/40 rounded-md p-3 overflow-y-auto"/>
+
+                <option selected="@(Context.Request.Query["DLC"] == "2" ? "selected" : null)" value="2">
+                    Show All
+                </option>
+
+                <option selected="@(Context.Request.Query["DLC"] == "1" ? "selected" : null)" value="1">
+                    Show only Dlc
+                </option>
+
+                <option selected="@(Context.Request.Query["DLC"] == "0" ? "selected" : null)" value="0">
+                    Don't show Dlc
+                </option>
+            </select>
+        </div>
+        
+        @*Persona Sorting*@
+        <div class="flex flex-col">
+            <label class="font-main mb-1 text-white text-shadow-2xs">Sorting</label>
+            <select name="sort"
+                class="text-white bg-blue-900/40 rounded-md p-3 overflow-y-auto"/>>
+
+                <option value="alphabetical" selected="@(Context.Request.Query["sort"] == "alphabetical" ? "selected" : null)">
+                    Alphabetical
+                </option>
+
+                <option value="level" selected="@(Context.Request.Query["sort"] == "level" ? "selected" : null)">
+                    Level
+                </option>
+            </select>
+        </div>
+        
+
+        <div class="flex flex-col">
+            <label class="invisible">asd</label>
+            <button type="submit" class="ml-4 hover:cursor-pointer justify-end bg-blue-950/90 items-end text-end
+                 text-white font-ternary py-2 px-4 rounded-md">
+                Search
+            </button>
+        </div>
+        
     </form>
 
     <div class="backdrop-blur-sm bg-blue-950/10 rounded-md p-6 mt-5">
@@ -57,7 +110,7 @@
             <nav>
                 <ul class="flex flex-row justify-between">
                     <li class="p-2 @(Model.PageIndex == 1 ? "cursor-default pointer-events-none opacity-50" : "")">
-                        <a class="hover:text-blue-800 transition-all duration-200" asp-route-pageNumber="@(Model.PageIndex - 1)">
+                        <a class="hover:text-blue-800 transition-all duration-200" asp-route-arcana="@arcanaFilter" asp-route-sort="@sort" asp-route-dlc="@dlcFilter" asp-route-pageNumber="@(Model.PageIndex - 1)">
                             < Previous 
                         </a>
                     </li>
@@ -65,12 +118,12 @@
                     @for(var i = 1; i <= Model.TotalPages; i++)
                     {
                         <li class="p-2 @(Model.PageIndex == i ? "cursor-default pointer-events-none text-blue-300 opacity-50" : "")">
-                            <a class="hover:text-blue-950 transition-all duration-200" asp-route-pageNumber="@i">@i</a>
+                            <a class="hover:text-blue-950 transition-all duration-200" asp-route-arcana="@arcanaFilter" asp-route-sort="@sort" asp-route-dlc="@dlcFilter" asp-route-pageNumber="@i">@i</a>
                         </li>
                     }
 
                     <li class="p-2 @(Model.PageIndex == Model.TotalPages ? "cursor-default pointer-events-none opacity-50" : "")">
-                        <a class="hover:text-blue-800 transition-all duration-200" asp-route-pageNumber="@(Model.PageIndex + 1)"> 
+                        <a class="hover:text-blue-800 transition-all duration-200" asp-route-arcana="@arcanaFilter" asp-route-sort="@sort" asp-route-dlc="@dlcFilter" asp-route-pageNumber="@(Model.PageIndex + 1)"> 
                             Next >
                         </a>
                     </li>
