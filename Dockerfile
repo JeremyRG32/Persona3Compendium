@@ -1,29 +1,31 @@
-# ============================
-# 1. Build Stage
-# ============================
+# ASP.NET Core Runtime
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
+WORKDIR /app
+EXPOSE 8080
+
+# Build Stage
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-# Copy project file
-COPY ./Persona3Compendium.Web/Persona3Compendium.Web.csproj ./Persona3Compendium.Web/
-RUN dotnet restore ./Persona3Compendium.Web/Persona3Compendium.Web.csproj
+# Copy csproj and restore
+COPY Persona3Compendium.Web/Persona3Compendium.Web.csproj Persona3Compendium.Web/
+RUN dotnet restore Persona3Compendium.Web/Persona3Compendium.Web.csproj
 
-# Copy everything
+# Copy everything else
 COPY . .
 
 # Publish
-RUN dotnet publish ./Persona3Compendium.Web/Persona3Compendium.Web.csproj -c Release -o /app
+WORKDIR /src/Persona3Compendium.Web
+RUN dotnet publish -c Release -o /app/publish
 
-
-# ============================
-# 2. Runtime Stage
-# ============================
-FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS runtime
+# Runtime Image
+FROM base AS final
 WORKDIR /app
 
-COPY --from=build /app .
+# Copy published output
+COPY --from=build /app/publish .
 
-ENV ASPNETCORE_URLS=http://0.0.0.0:10000
-EXPOSE 10000
+# ⬅️ IMPORTANT: copy SQLite DB into container
+COPY Persona3Compendium.Web/Persona.db /app/Persona.db
 
-CMD ["dotnet", "Persona3Compendium.Web.dll"]
+ENTRYPOINT ["dotnet", "Persona3Compendium.Web.dll"]
