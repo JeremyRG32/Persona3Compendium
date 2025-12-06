@@ -19,6 +19,6 @@ COPY --from=build /app/publish .
 
 COPY Persona3Compendium.Web/Persona.db /app/Persona.db
 
-ENV ASPNETCORE_URLS=http://0.0.0.0:${PORT}
+ENV ASPNETCORE_URLS="http://0.0.0.0:$PORT"
 
 ENTRYPOINT ["dotnet", "Persona3Compendium.Web.dll"]
